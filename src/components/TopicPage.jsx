@@ -11,12 +11,9 @@ export default function TopicPage() {
   
   // Zustand Store
   const searchQuery = useStore(state => state.searchQuery);
-  const openQuestions = useStore(state => state.openQuestions);
-  const setOpenQuestion = useStore(state => state.setOpenQuestion);
   const completed = useStore(state => state.completed);
 
   const topicData = contentData[topicId];
-  const openQuestionId = openQuestions[topicId] || null;
 
   const filteredQuestions = useMemo(() => {
     if (!topicData) return [];
@@ -94,8 +91,6 @@ export default function TopicPage() {
                       topicId={topicId}
                       topicLabel={topicData.title.split(' ')[0]}
                       difficulty={difficulty}
-                      isOpen={openQuestionId === q.id}
-                      onToggle={() => setOpenQuestion(topicId, q.id)}
                     />
                   )}
                 </motion.div>

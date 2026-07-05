@@ -1,21 +1,20 @@
+import { memo } from 'react';
 import { ChevronDown, Lightbulb, Bookmark, Terminal, AlertTriangle, FastForward, CheckCircle2, Share } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '../store/useStore';
 import CodeBlock from './CodeBlock';
 import '../index.css';
 
-export default function CodingCard({ data, topicId, index }) {
-  const openQuestions = useStore((state) => state.openQuestions);
+const CodingCard = memo(function CodingCard({ data, topicId, index }) {
   const setOpenQuestion = useStore((state) => state.setOpenQuestion);
-  const bookmarks = useStore((state) => state.bookmarks);
   const toggleBookmark = useStore((state) => state.toggleBookmark);
-  const completed = useStore((state) => state.completed);
   const toggleCompleted = useStore((state) => state.toggleCompleted);
   const setToast = useStore((state) => state.setToast);
 
-  const isOpen = openQuestions[topicId] === data.id;
-  const isBookmarked = bookmarks.includes(data.id);
-  const isCompleted = completed.includes(data.id);
+  // Highly optimized selectors (prevents global re-renders)
+  const isOpen = useStore((state) => state.openQuestions[topicId] === data.id);
+  const isBookmarked = useStore((state) => state.bookmarks.includes(data.id));
+  const isCompleted = useStore((state) => state.completed.includes(data.id));
 
   const handleShare = (e) => {
     e.stopPropagation();
@@ -77,7 +76,8 @@ export default function CodingCard({ data, topicId, index }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
+            transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
+            style={{ overflow: 'hidden' }}
             className="q-body-wrapper"
           >
             <div className="q-body">
@@ -176,4 +176,6 @@ export default function CodingCard({ data, topicId, index }) {
       </AnimatePresence>
     </div>
   );
-}
+});
+
+export default CodingCard;

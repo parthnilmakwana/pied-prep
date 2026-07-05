@@ -1,8 +1,8 @@
-import { useState, Suspense } from 'react';
+import { useState, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import TopNav from './components/TopNav';
-import TopicPage from './components/TopicPage';
+const TopicPage = lazy(() => import('./components/TopicPage'));
 import Toast from './components/Toast';
 import { useStore } from './store/useStore';
 

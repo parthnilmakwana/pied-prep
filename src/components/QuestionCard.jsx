@@ -1,17 +1,22 @@
+import { memo } from 'react';
 import { ChevronDown, Lightbulb, Bookmark, CheckCircle2, Share, Terminal, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '../store/useStore';
 import CodeBlock from './CodeBlock';
 
-export default function QuestionCard({ data, index, topicId, topicLabel, difficulty, isOpen, onToggle }) {
+const QuestionCard = memo(function QuestionCard({ data, index, topicId, topicLabel, difficulty }) {
   const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
   
-  // Zustand State
+  // Zustand State (Efficient Selectors)
   const isBookmarked = useStore(state => state.bookmarks.includes(data.id));
   const toggleBookmark = useStore(state => state.toggleBookmark);
   const isCompleted = useStore(state => state.completed.includes(data.id));
   const toggleCompleted = useStore(state => state.toggleCompleted);
   const setToast = useStore(state => state.setToast);
+  
+  const isOpen = useStore(state => state.openQuestions[topicId] === data.id);
+  const setOpenQuestion = useStore(state => state.setOpenQuestion);
+  const onToggle = () => setOpenQuestion(topicId, isOpen ? null : data.id);
 
   const handleShare = (e) => {
     e.stopPropagation();
@@ -63,7 +68,7 @@ export default function QuestionCard({ data, index, topicId, topicLabel, difficu
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
             style={{ overflow: 'hidden' }}
           >
             <div className="q-body">
@@ -145,4 +150,6 @@ export default function QuestionCard({ data, index, topicId, topicLabel, difficu
       </AnimatePresence>
     </div>
   );
-}
+});
+
+export default QuestionCard;
