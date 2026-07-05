@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Layout, Palette, Code, Box, Server, Truck, Database, Key, Braces, Layers } from 'lucide-react';
+import { Layout, Palette, Code, Box, Server, Truck, Database, Key, Braces, Layers, GitBranch } from 'lucide-react';
 
 const mainNavItems = [
   { id: 'html', label: 'HTML', icon: Layout },
@@ -10,6 +10,7 @@ const mainNavItems = [
   { id: 'express', label: 'Express', icon: Truck },
   { id: 'mongodb', label: 'MongoDB', icon: Database },
   { id: 'auth', label: 'Authentication', icon: Key },
+  { id: 'git', label: 'Git & GitHub', icon: GitBranch },
 ];
 
 const codingNavItems = [
